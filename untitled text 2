@@ -1,0 +1,74 @@
+https://graph.facebook.com/v2.8/memorieswithmickey/albums?fields=id,name,description,link,cover_photo,count&access_token=1825352951068324|3KHgMAfV95_MJIY8xKoCNe6T4A8
+
+https://graph.facebook.com/v2.8/1825352951068324/albums?fields=id,name,description,link,cover_photo,count&access_token=EAACEdEose0cBAPFMcB7OW17kZB4OymiFgEOre4aTvtpJwZCnpjx9JcRZBZCmTL7vGp89jE3MirkbWlAv8cEnXwHWWlWj49KvRPy0mZACjyfGtURAMGycxeneZBtgVU2FmNjLHFjadowsr3chsPRZCaRTCKyodwUg5Nunu6G6O39xZC7LtuKGuQFVc7CxCddRzuwZD
+
+https://graph.facebook.com/v2.8/221167777906963/albums?fields=id,name,description,link,cover_photo,count&access_token=128623690525794|LbfgDAXN_KioIspqkMegG1-ysHA
+
+281440858865400
+
+
+<asp:AccessDataSource ID="AccessDataSource1" runat="server" 
+    DataFile="<%$ ConnectionStrings:AccessSubSiteString %>"
+        SelectCommand="SELECT [UsersDataTbl.StudentID], [UsersDataTbl.UserName], 
+        [UsersDataTbl.LastName], [UsersDataTbl.FirstName], [UsersDataTbl.Affiliation], [UsersDataCareerTbl.Battallion], [UsersDataCareerTbl.Shift], [UsersDataTbl.UID], [ALSProviders.ALS] 
+        FROM ([UsersDataTbl] INNER JOIN [UsersDataCareerTbl] ON (UsersDataTbl.UID = UsersDataCareerTbl.UID)) LEFT JOIN [ALSProviders] ON (UsersDataTbl.UID = ALSProviders.UID)
+        WHERE [UsersDataTbl.Career] = True AND [UsersDataTbl.Active] = True AND (UsersDataCareerTbl.Battallion = ?) AND (UsersDataCareerTbl.Shift = ?) 
+        AND ([UsersDataTbl.UID] NOT IN (SELECT UID FROM [EnrollmentsTbl] WHERE ClassName = '?')) AND Completed = True
+        ORDER BY [UsersDataTbl.LastName]">
+        <SelectParameters>
+            <asp:ControlParameter ControlID="DropDownList3" Name="Battallion" PropertyName="SelectedValue" Type="String" />
+            <asp:ControlParameter ControlID="DropDownList4" Name="Shift" PropertyName="SelectedValue" Type="String" /> 
+            <asp:ControlParameter ControlID="DropDownList1" Name="ClassName" PropertyName="SelectedValue" Type="String" />           
+        </SelectParameters>
+    </asp:AccessDataSource>
+    
+    
+    
+    <asp:AccessDataSource ID="AccessDataSource1" runat="server" 
+    DataFile="<%$ ConnectionStrings:AccessSubSiteString %>"
+        SelectCommand="SELECT [UsersDataTbl.StudentID], [UsersDataTbl.UserName], 
+        [UsersDataTbl.LastName], [UsersDataTbl.FirstName], [UsersDataTbl.Affiliation], [UsersDataCareerTbl.Battallion], [UsersDataCareerTbl.Shift], [UsersDataTbl.UID], [ALSProviders.ALS] 
+        FROM ([UsersDataTbl] INNER JOIN [UsersDataCareerTbl] ON (UsersDataTbl.UID = UsersDataCareerTbl.UID)) 
+        LEFT JOIN [ALSProviders] ON (UsersDataTbl.UID = ALSProviders.UID) 
+        LEFT JOIN [EnrollmentsTbl] ON [UsersDataTbl.UID] = [EnrollmentsTbl.UID] AND ClassName = 'Overview (TECC)' 
+        WHERE [UsersDataTbl.Career] = True 
+        AND [UsersDataTbl.Active] = True AND (UsersDataCareerTbl.Battallion = ?) AND (UsersDataCareerTbl.Shift = ?) 
+        AND [EnrollmentsTbl.UID] IS NOT NULL AND Completed = True) ORDER BY [UsersDataTbl.LastName]">
+        <SelectParameters>
+            <asp:ControlParameter ControlID="DropDownList3" Name="Battallion" PropertyName="SelectedValue" Type="String" />
+            <asp:ControlParameter ControlID="DropDownList4" Name="Shift" PropertyName="SelectedValue" Type="String" /> 
+            <asp:ControlParameter ControlID="DropDownList1" Name="ClassName" PropertyName="SelectedValue" Type="String" />           
+        </SelectParameters>
+    </asp:AccessDataSource>
+    
+    
+    
+    
+    LEFT JOIN ([EnrollmentsTbl] ON UsersDataTbl.UID = EnrollmentsTbl.UID)
+    LEFT JOIN [EnrollmentsTbl] ON (UsersDataTbl.UID = EnrollmentsTbl.UID AND ClassName = ?) 
+        WHERE [UsersDataTbl.Career] = True AND [UsersDataTbl.Active] = True AND (UsersDataCareerTbl.Battallion = ?) 
+        AND (UsersDataCareerTbl.Shift = ?) AND (EnrollmentsTbl.UID IS NULL AND Completed = True) ORDER BY [UsersDataTbl.LastName]
+        
+        
+        
+        
+    Else If
+	    	Request.QueryString("code") = 2345 Then
+            Dim RecordsReturned2 As Integer = 0
+            RecordsReturned2 = RecordExist(UserName)
+            
+            If RecordsReturned2 < 1 Then
+				CreateEnrollment(UserName, ClassDate, ClassTime, ClassName2)
+            	UpdateLastActivityDate(UserName)
+				Response.Redirect("~/transcript.aspx")
+	    	Else
+            	UpdateLastActivityDate(UserName)
+            	SendMail(SendMailAddress, FailedMessage & UserName & " - " & RecordsReturned & " Records Exist")  'Remove this line after testing  
+	    		Response.Redirect("~/transcript.aspx")
+	    	End If
+                
+        
+        
+        
+        
+        
