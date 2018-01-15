@@ -1,4 +1,4 @@
-<%@ Page Language="VB" MasterPageFile="~/i_MasterPage.master" AutoEventWireup="false" title="MCFRS Tech Training Website - Wait List Edit Admin Lookup" %>
+<%@ Page Language="VB" MasterPageFile="~/i_MasterPage.master" AutoEventWireup="false" title="Wait List Edit Admin Lookup" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     
